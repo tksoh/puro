@@ -1,0 +1,15 @@
+#!bash
+
+cmd=$(basename $0)
+puro_bin=$(dirname `which puro`)
+
+puro_env=$(puro --no-color ls | perl -e 'undef $/; $_=<>; print $1 if /^\s+\*+\s+(\w+)/m')
+flutter_bin=$puro_bin/../envs/$puro_env/flutter/bin
+
+if [[ ! -f "$flutter_bin/flutter" ]]; then
+    echo [ERROR] invalid puro environment: \'$puro_env\'
+    exit
+fi
+
+echo "[Puro environment: $puro_env]"
+PATH=$flutter_bin:$PATH $cmd $@
