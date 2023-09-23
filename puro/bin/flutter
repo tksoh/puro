@@ -3,7 +3,7 @@
 cmd=$(basename $0)
 puro_bin=$(dirname `which puro`)
 
-puro_env=$(puro --no-color ls | perl -e 'undef $/; $_=<>; print $1 if /^\s+\*+\s+(\w+)/m')
+puro_env=$(puro --no-color ls | awk 'match($0, /(\*)/) { print $2; exit }')
 flutter_bin=$puro_bin/../envs/$puro_env/flutter/bin
 
 if [[ ! -f "$flutter_bin/flutter" ]]; then
