@@ -1,0 +1,18 @@
+#!bash
+
+puro_bin=$(dirname `which puro`)
+json_pref=$puro_bin/../prefs.json
+global_env=$(cat $json_pref | perl -ne 'print $1 if /"defaultEnvironment":\s+"(\w+)"/' )
+echo Global Environment: $global_env
+
+json_file=.puro.json
+path=$(pwd)
+while [[ "$path" != "" && ! -e "$path/$json_file" ]]; do
+    path=${path%/*}
+done
+
+if [ "$path" == "" ]; then
+    puro ls | perl -pe 's/\*/ /mg'
+else
+    puro ls
+fi
