@@ -17,5 +17,5 @@ if [[ ! -f "$flutter_bin/flutter" ]]; then
     exit
 fi
 
-echo "[Puro environment: $puro_env]"
+# echo "[Puro environment: $puro_env]"
 PATH=$flutter_bin:$PATH $cmd $@
