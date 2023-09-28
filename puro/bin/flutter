@@ -3,9 +3,15 @@
 cmd=$(basename $0)
 puro_bin=$(dirname `which puro`)
 
-puro_env=$(puro --no-color ls | awk 'match($0, /(\*)/) { print $2; exit }')
-flutter_bin=$puro_bin/../envs/$puro_env/flutter/bin
+# check project env
+puro_env=$(puro --no-color ls | awk 'match($0, /*/) { print $2; exit }')
+if [ -z "$puro_env" ]; then
+    # check default/global env
+    puro_env=$(puro --no-color ls | awk 'match($0, /~/) { print $2; exit }')
+fi
 
+# check path to flutter executable
+flutter_bin=$puro_bin/../envs/$puro_env/flutter/bin
 if [[ ! -f "$flutter_bin/flutter" ]]; then
     echo [ERROR] invalid puro environment: \'$puro_env\'
     exit
